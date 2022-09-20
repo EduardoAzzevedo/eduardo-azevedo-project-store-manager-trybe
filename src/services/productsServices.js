@@ -10,9 +10,7 @@ const idProductServices = async (req, res) => {
   const query = await idProducts(id);
   if (query) {
     return res.status(200).json(query);
-  } return res.status(404).json({
-    message: 'Product not found',
-  });
+  } return res.status(404).json({ message: 'Product not found' });
 };
 
 module.exports = {
