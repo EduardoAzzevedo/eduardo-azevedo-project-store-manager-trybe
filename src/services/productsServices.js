@@ -1,26 +1,24 @@
-const { allProducts, idProducts, createProduct } = require('../models/productsModel');
+const productsModel = require('../models/productsModel');
 
-const allProductsServices = async (req, res) => {
-  const query = await allProducts();
-  return res.status(200).json(query);
+const findAllProducts = async () => {
+  const result = await productsModel.findAll();
+  return result;
 };
 
-const idProductServices = async (req, res) => {
-  const { id } = req.params;
-  const query = await idProducts(id);
-  if (query) {
-    return res.status(200).json(query);
-  } return res.status(404).json({ message: 'Product not found' });
+const findById = async (id) => {
+  const result = await productsModel.idProducts(id);
+
+  if (!result) return null;
+  return result;
 };
 
-const createProducServices = async (req, res) => {
-  const { name } = req.body;
-  const query = await createProduct(name);
-  return res.status(201).json(query);
-};
+// const insert = async (name) => {
+//   const result = await productsModel.insert(name);
+//   return result;
+// };
 
 module.exports = {
-  allProductsServices,
-  idProductServices,
-  createProducServices,
+  findAllProducts,
+  findById,
+  // insert,
 };
