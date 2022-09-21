@@ -14,14 +14,14 @@ const findById = async (req, res) => {
   return res.status(200).json(result);
 };
 
-// const insert = async (req, res) => {
-//   const { name } = req.body;
-//   const result = await prodServ.insert(name);
-//   return res.status(200).json(result);
-// };
+const insert = async (req, res) => {
+  const { name } = req.body;
+  const result = await prodServ.insertP(name);
+  return res.status(201).json(result);
+};
 
 module.exports = {
   findAllProducts,
   findById,
-  // insert,
+  insert,
 };

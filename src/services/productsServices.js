@@ -12,13 +12,13 @@ const findById = async (id) => {
   return result;
 };
 
-// const insert = async (name) => {
-//   const result = await productsModel.insert(name);
-//   return result;
-// };
+const insertP = async (name) => {
+  const result = await productsModel.insert(name);
+  return { id: result.insertId, name };
+};
 
 module.exports = {
   findAllProducts,
   findById,
-  // insert,
+  insertP,
 };
