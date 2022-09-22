@@ -20,8 +20,18 @@ const insert = async (req, res) => {
   return res.status(201).json(result);
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const result = await prodServ.deleteProduct(id);
+  if (result == null) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  return res.status(204).end();
+};
+
 module.exports = {
   findAllProducts,
   findById,
   insert,
+  deleteProduct,
 };

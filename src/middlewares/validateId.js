@@ -19,7 +19,7 @@ const validationProductId = (req, res, next) => {
 const productId = async (req, res, next) => {
   const data = req.body;
   const result = await Promise.all(
-    data.map((sale) => productService.findById(sale.productId)),
+    data.map((sale) => productService.validateproduct(sale.productId)),
   );
   if (result.some((check) => check === false)) {
     return res.status(404).json({ message: 'Product not found' });
