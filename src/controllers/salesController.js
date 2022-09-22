@@ -1,6 +1,6 @@
 const salesService = require('../services/salesService');
 
-const findBy = async (req, res) => {
+const findBy = async (_req, res) => {
   const result = await salesService.findBy();
   return res.status(200).json(result);
 };

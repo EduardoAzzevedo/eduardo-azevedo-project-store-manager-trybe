@@ -17,8 +17,14 @@ const insertP = async (name) => {
   return { id: result.insertId, name };
 };
 
+const validateproduct = async (id) => {
+  const product = await productsModel.idProducts(id);
+  if (!product) return false;
+};
+
 module.exports = {
   findAllProducts,
   findById,
   insertP,
+  validateproduct,
 };

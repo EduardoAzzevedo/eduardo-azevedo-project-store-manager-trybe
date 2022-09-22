@@ -13,4 +13,12 @@ const mockList = [
   },
 ];
 
-module.exports = mockList;
+const mockInsert = {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 6,
+  info: '',
+  serverStatus: 2,
+  warningStatus: 0
+};
+module.exports = { mockList, mockInsert };

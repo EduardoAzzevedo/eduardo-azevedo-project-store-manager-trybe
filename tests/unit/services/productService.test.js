@@ -3,52 +3,56 @@ const { expect } = require('chai');
 
 const productModel = require('../../../src/models/productsModel');
 const productService = require('../../../src/services/productsServices');
-const productsServiceList = require('./mocks/productsListService.mock');
-const { insert } = require('../../../src/controllers/productController');
+const { mockList, mockInsert } = require('./mockService');
 
-describe('Verificando service Products', function () {
+describe('Verificando service Products Services', function () {
   describe('Listando todos os produtos', function () {
     beforeEach(function () {
-      sinon.stub(productModel, 'findBy').resolves(productsServiceList);
+      sinon.stub(productModel, 'findAll').resolves(mockList);
     });
 
     afterEach(function () {
-      sinon.restore();
+      productModel.findAll.restore();
     });
 
     it('a lista de produtos é um array', async function () {
-      const products = await productService.findBy();
-
+      const products = await productService.findAllProducts(mockList);
       expect(products instanceof Array).to.equal(true);
     });
 
     it('retorna a lista de produtos com sucesso', async function () {
-      const res = await productService.findBy();
+      const res = await productService.findAllProducts();
 
-      expect(res).to.deep.equal(productsServiceList);
+      expect(res).to.deep.equal(mockList);
     });
   });
 });
 
-describe('Cadastrando um novo produto com sucesso', function () {
-
+describe('Cadastrando um produto novo com sucesso', function () {
   afterEach(function () {
     sinon.restore();
   });
 
   beforeEach(function () {
-    sinon.stub(productsModel, 'insert').resolves({});
+    sinon.stub(productModel, 'insert').resolves(mockInsert);
+  });
+  it('inserindo Produto por id', async function () {
+    const res = await productService.insertP('fulano');
+    expect(res).to.deep.equal({ id: mockInsert.insertId, name: 'fulano' });
+  });
+});
+
+describe('Listando o produto por id', function () {
+  afterEach(function () {
+    productModel.idProducts.restore();
   });
 
-  it('não retorna erros', async function () {
-    const response = await productsService.insert({});
-
-    expect(response.type).to.equal(null);
+  beforeEach(function () {
+    sinon.stub(productModel, 'idProducts').resolves(mockList);
   });
 
-  it('retorna o produto cadastrado', async function () {
-    await productsService.insert({ insertId });
-
-    expect(response.message).to.equal({ insertId });
+  it('Retorna produto por id', async function () {
+    const result = await productService.findById(1);
+    expect(result).to.deep.equal(mockList);
   });
 });

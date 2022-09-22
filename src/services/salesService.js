@@ -14,7 +14,7 @@ const findById = async (saleId) => {
 const insert = async (name) => {
   const result = await salesModels.insert(name);
   console.log(result);
-  return { name: result };
+  return { id: result.insertId, name };
 };
 
 module.exports = {

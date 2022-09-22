@@ -1,3 +1,4 @@
+const { expect } = require("chai");
 
 const mockProducts = [
   {
@@ -14,4 +15,11 @@ const mockProducts = [
   },
 ];
 
-module.exports = mockProducts;
+const expected = [
+  {
+    "id": 3,
+    "name": "Escudo do Capitão América"
+  },
+];
+
+module.exports = { mockProducts, expect };

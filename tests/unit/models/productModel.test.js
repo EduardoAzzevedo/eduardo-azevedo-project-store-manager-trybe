@@ -2,7 +2,6 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const productModel = require('../../../src/models/productsModel');
-const { expect } = require('chai');
 
 describe("Verifica se retorna os produtos", () => {
 
@@ -31,7 +30,7 @@ describe("Verifica se retorna os produtos", () => {
     });
 
     it('com o tipo array', async function () {
-      const response = await productModel.findById(1);
+      const response = await productModel.idProducts(1);
       expect(response).to.be.a('object');
     });
 
@@ -81,7 +80,7 @@ describe('Products Model', function () {
     const payload = 3;
 
     it('com sucesso', async function () {
-      const response = await productModel.findById(payload);
+      const response = await productModel.idProducts(payload);
 
       expect(response).to.deep.equal(expected);
 
@@ -109,7 +108,7 @@ describe('Products Model', function () {
       }
     ];
     it('com sucesso', async function () {
-      const response = await productsModel.insert();
+      const response = await productModel.insert();
 
       expect(response).to.deep.equal(expected);
     });
