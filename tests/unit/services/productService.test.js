@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const productModel = require('../../../src/models/productsModel');
 const productService = require('../../../src/services/productsServices');
-const { mockList, mockInsert, validation } = require('./mockService');
+const { mockList, mockInsert } = require('./mockService');
 
 describe('Verificando service Products Services', function () {
   describe('Listando todos os produtos', function () {
@@ -55,17 +55,29 @@ describe('Verificando service Products Services', function () {
       expect(result).to.deep.equal(mockList);
     });
   });
+
   describe('Validando produtos', function () {
+    beforeEach(function () {
+      sinon.stub(productService, 'validateproduct').resolves(false);
+    });
+
     afterEach(function () {
       productService.validateproduct.restore();
     });
 
-    beforeEach(function () {
-      sinon.stub(productService, 'validateproduct').resolves(validation(4))
-    });
     it('retorna falso', async function () {
       const valid = await productService.validateproduct(4);
-      expect(valid).to.be(false);
+      expect(valid).to.equal(false);
     });
+  });
+});
+
+describe('Testa função de deletar produto', function () {
+  beforeEach(function () {
+    sinon.stub(productService, 'deleteProduct').resolves(false);
+  });
+
+  afterEach(function () {
+    productService.deleteProduct.restore();
   });
 });

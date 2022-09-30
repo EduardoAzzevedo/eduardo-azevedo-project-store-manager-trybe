@@ -1,12 +1,12 @@
-const express = require('express');
+const routerSales = require('express').Router();
 const salesController = require('../controllers/salesController');
+const validateFild = require('../middlewares/sales');
+const { productId } = require('../middlewares/validateId');
 
-const routerSales = express.Router();
+routerSales.get('/', salesController.sales);
 
-routerSales.get('/', salesController.findBy);
+routerSales.get('/:id', salesController.byId);
 
-routerSales.get('/:id', salesController.findById);
-
-routerSales.post('/', salesController.insert);
+routerSales.post('/', validateFild, productId, salesController.insertSale);
 
 module.exports = routerSales;

@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const productsController = require('../../../src/controllers/productController');
 const productsService = require('../../../src/services/productsServices');
-const { mockProducts, expectObject } = require('./mockControll');
+const { mockProducts, expected } = require('./mockControll');
 
 describe('Verificando service Products Controller', function () {
   describe('Listando todos os produtos listados', function () {
@@ -34,7 +34,7 @@ describe('Verificando service Products Controller', function () {
     res.json = sinon.stub().returns();
 
     beforeEach(function () {
-      sinon.stub(productsService, 'findById').resolves(expectObject);
+      sinon.stub(productsService, 'findById').resolves(expected);
     });
 
     afterEach(function () {
@@ -55,7 +55,7 @@ describe('Verificando service Products Controller', function () {
     res.json = sinon.stub().returns();
 
     beforeEach(function () {
-      sinon.stub(productsService, 'insertP').resolves(expectObject);
+      sinon.stub(productsService, 'insertP').resolves(expected);
     });
 
     afterEach(function () {

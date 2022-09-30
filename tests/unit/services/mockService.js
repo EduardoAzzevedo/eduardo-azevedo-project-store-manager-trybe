@@ -22,8 +22,7 @@ const mockInsert = {
   warningStatus: 0
 };
 
-const validation = (id) => {
-  if (!mockList[1].id === 1) return false;
-}
-
-module.exports = { mockList, mockInsert, validation };
+module.exports = {
+  mockList,
+  mockInsert,
+};

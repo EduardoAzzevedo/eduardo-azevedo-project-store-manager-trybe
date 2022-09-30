@@ -1,27 +1,35 @@
 const salesService = require('../services/salesService');
+const { error } = require('../middlewares/erros');
 
-const findBy = async (_req, res) => {
-  const result = await salesService.findBy();
-  return res.status(200).json(result);
-};
+const insertSale = async (req, res) => {
+  const itemsSold = req.body;
+  const { type, message } = await salesService.createSale(itemsSold);
 
-const findById = async (req, res) => {
-  const { id } = req.params;
-  const result = await salesService.findById(id);
-  if (!result) {
-    return res.status(404).json({ message: 'Sale not found' });
+  if (type) {
+    return res.status(error(type)).json({ message });
   }
-  return res.status(200).json(result);
+
+  return res.status(201).json(message);
 };
 
-const insert = async (req, res) => {
-  const { name } = req.body;
-  const result = await salesService.insert(name);
-  return res.status(201).json(result);
+const sales = async (req, res) => {
+  const { message } = await salesService.getSales();
+
+  return res.status(200).json(message);
+};
+
+const byId = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await salesService.saleById(id);
+
+  if (type) {
+    return res.status(error(type)).json({ message });
+  }
+  return res.status(200).json(message);
 };
 
 module.exports = {
-  findBy,
-  findById,
-  insert,
+  insertSale,
+  sales,
+  byId,
 };

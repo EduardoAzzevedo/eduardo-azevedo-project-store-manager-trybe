@@ -2,27 +2,13 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const productModel = require('../../../src/models/productsModel');
+const { executeMock, deletedMock } = require('./mockModel');
 
 describe("Verifica se retorna os produtos", () => {
 
   describe("Verifica se retorna os produtos, quando feita a procura", function () {
     before(async function () {
-      const execute = [
-        {
-          "id": 1,
-          "name": "Martelo de Thor"
-        },
-        {
-          "id": 2,
-          "name": "Traje de encolhimento"
-        },
-        {
-          "id": 3,
-          "name": "Escudo do Capitão América"
-        }
-      ];
-
-      sinon.stub(connection, 'execute').resolves([execute]);
+      sinon.stub(connection, 'execute').resolves([executeMock]);
     });
 
     after(async function () {
@@ -35,23 +21,8 @@ describe("Verifica se retorna os produtos", () => {
     });
 
     it('com sucesso', async function () {
-      const expected = [
-        {
-          "id": 1,
-          "name": "Martelo de Thor"
-        },
-        {
-          "id": 2,
-          "name": "Traje de encolhimento"
-        },
-        {
-          "id": 3,
-          "name": "Escudo do Capitão América"
-        }
-      ];
-
       const response = await productModel.findAll();
-      expect(response).to.deep.equal(expected);
+      expect(response).to.deep.equal(executeMock);
     });
   });
 });
@@ -111,6 +82,21 @@ describe('Products Model', function () {
       const response = await productModel.insert();
 
       expect(response).to.deep.equal(expected);
+    });
+  });
+
+  describe('Testa função que deleta pelo id', function () {
+    describe('Deletando por id', function () {
+      before(async function () {
+        sinon.stub(connection, 'execute').resolves([executeMock[2].id])
+      });
+      after(async function () {
+        connection.execute.restore();
+      });
+      it('Deleta com sucesso', async function () {
+        const deleted = await productModel.deleteProduct([executeMock[2].id]);
+        expect(deleted).to.be.equal(deletedMock);
+      });
     });
   });
 });

@@ -1,24 +1,48 @@
 const salesModels = require('../models/salesModel');
 
-const findBy = async () => {
-  const result = await salesModels.findBy();
-  return result;
+const { insert } = salesModels;
+
+const productsService = require('./productsServices');
+
+const createSale = async (itemsSold) => {
+  const productIds = itemsSold.map(({ productId }) => productId);
+
+  const storedIds = await productsService.findAllProducts();
+
+  const validateId = productIds.every(
+    (productId) => storedIds.some(({ id }) => id === productId),
+  );
+
+  if (!validateId) {
+    return { type: 'productNotFound', message: 'Product not found' };
+  }
+
+  const id = await insert.dataVenda();
+
+  itemsSold.forEach(async ({ productId, quantity }) => {
+    await insert.itemVendido(id, productId, quantity);
+  });
+
+  return { type: null, message: { id, itemsSold } };
 };
 
-const findById = async (saleId) => {
-  const result = await salesModels.findById(saleId);
-  if (result.length === 0) return null;
-  return result;
+const getSales = async () => {
+  const sales = await salesModels.findAll();
+  return { type: null, message: sales };
 };
 
-const insert = async (name) => {
-  const result = await salesModels.insert(name);
-  console.log(result);
-  return { id: result.insertId, name };
+const saleById = async (saleId) => {
+  const sale = await salesModels.findAllById(saleId);
+
+  if (!sale.length) {
+    return { type: 'saleNotFound', message: 'Sale not found' };
+  }
+
+  return { type: null, message: sale };
 };
 
 module.exports = {
-  findBy,
-  findById,
-  insert,
+  createSale,
+  getSales,
+  saleById,
 };
