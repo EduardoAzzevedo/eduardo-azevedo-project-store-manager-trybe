@@ -1,7 +1,7 @@
 const errorMessage = {
   productNotFound: 404,
-  productNameNotFound: 400,
-  invalidProductName: 422,
+  'any.required': 400,
+  'string.min': 422,
   saleNotFound: 404,
 };
 
