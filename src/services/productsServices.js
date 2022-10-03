@@ -30,7 +30,6 @@ const productUpdate = async (nameUpdate, idUpdate) => {
   }
 
   const errorM = validateProd(nameUpdate);
-  console.log('mensagem error', errorM);
   if (errorM.type) return errorM;
 
   const updateProducts = await productsModel.updateProduct(nameUpdate, idUpdate);

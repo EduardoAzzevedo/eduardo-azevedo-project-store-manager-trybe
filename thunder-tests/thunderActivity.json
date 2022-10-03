@@ -41,7 +41,7 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-09-30T18:44:32.911Z",
-    "modified": "2022-09-30T18:44:33.583Z",
+    "modified": "2022-10-03T17:57:33.716Z",
     "headers": [],
     "params": [],
     "body": {
@@ -87,6 +87,20 @@
       "raw": "{\n\n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "ff6fee25-1c1f-4435-813a-14cf01215692",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/sale/3",
+    "url": "http://localhost:3000/sale/4",
+    "method": "DELETE",
+    "sortNum": 0,
+    "created": "2022-10-03T17:50:32.708Z",
+    "modified": "2022-10-03T20:31:19.628Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]
