@@ -13,7 +13,7 @@ const createSale = async (itemsSold) => {
   );
 
   if (!validateId) {
-    return { type: 'productNotFound', message: 'Product not found' };
+    return { type: 'errorNotFound', message: 'Product not found' };
   }
   const id = await insert.dataVenda();
   itemsSold.forEach(async ({ productId, quantity }) => {
@@ -31,7 +31,7 @@ const saleById = async (saleId) => {
   const sale = await salesModels.findAllById(saleId);
 
   if (!sale.length) {
-    return { type: 'saleNotFound', message: 'Sale not found' };
+    return { type: 'errorNotFound', message: 'Sale not found' };
   }
   return { type: null, message: sale };
 };
@@ -40,7 +40,7 @@ const deleteSale = async (saleId) => {
   const sale = await salesModels.findAllById(saleId);
 
   if (!sale.length) {
-    return { type: 'saleNotFound', message: 'Sale not found' };
+    return { type: 'errorNotFound', message: 'Sale not found' };
   }
   const saleToDelete = await salesModels.deleteSaleM(saleId);
   return { type: null, message: saleToDelete };
