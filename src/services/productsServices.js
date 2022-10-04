@@ -43,6 +43,11 @@ const deleteProduct = async (id) => {
   return deleteId;
 };
 
+const searchProductS = async (query) => {
+  const products = await productsModel.searchProductM(query);
+  return products;
+};
+
 module.exports = {
   findAllProducts,
   findById,
@@ -50,4 +55,5 @@ module.exports = {
   validateproduct,
   productUpdate,
   deleteProduct,
+  searchProductS,
 };
