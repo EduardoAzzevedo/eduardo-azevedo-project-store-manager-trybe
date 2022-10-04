@@ -41,8 +41,8 @@ const deleteSaleC = async (req, res) => {
 
 const updateSaleC = async (req, res) => {
   const { id } = req.params;
-  const bodyReq = req.body;
-  const { type, message } = await salesService.updateSaleS(bodyReq, id);
+  const { body } = req;
+  const { type, message } = await salesService.updateSaleS(body, id);
 
   if (type) {
     return res.status(errorSales(type)).json({ message });

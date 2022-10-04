@@ -85,18 +85,16 @@ describe('Products Model', function () {
     });
   });
 
-  describe('Testa função que deleta pelo id', function () {
-    describe('Deletando por id', function () {
-      before(async function () {
-        sinon.stub(connection, 'execute').resolves([executeMock[2].id])
-      });
-      after(async function () {
-        connection.execute.restore();
-      });
-      it('Deleta com sucesso', async function () {
-        const deleted = await productModel.deleteProduct([executeMock[2].id]);
-        expect(deleted).to.be.equal(deletedMock);
-      });
+  describe('Deletando por id', function () {
+    before(async function () {
+      sinon.stub(connection, 'execute').resolves([{ id: 1 }])
+    });
+    after(async function () {
+      connection.execute.restore();
+    });
+    it('Deleta com sucesso', async function () {
+      const deleted = await productModel.deleteProduct([{ id: 1 }]);
+      expect(deleted).to.be.deep.equal(1);
     });
   });
 });

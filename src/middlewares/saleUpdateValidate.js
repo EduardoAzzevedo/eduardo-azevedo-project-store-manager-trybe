@@ -23,7 +23,7 @@ const saleValidate = (sales) => {
   const { error } = saleList.validate(sales);
   if (error) {
     return {
-      type: error.message.includes('required') ? 'errorInvalidFild' : 'errorinvalidValue',
+      type: error.message.includes('required') ? 'errorInvalidFild' : 'errorInvalidValue',
       message: error.message,
     };
   }
@@ -36,31 +36,14 @@ const verification = async (itemsUpdated) => {
   return products.some((product) => !product);
 };
 
-const saleValide = (req, res, next) => {
+const saleValide = async (req, res, next) => {
   const { id } = req.params;
-  const saleIdValidate = salesModels.findAllById(id).find(({ saleId }) => Number(saleId));
+  const saleIdValidate = (await salesModels.findAllById(id)).find((saleId) => saleId);
   if (!saleIdValidate) {
     return res.status(404).json({ message: 'Sale not found' });
   }
   next();
 };
-
-// const saleIdValidate = async (req, res, next) => {
-//   const sales = await salesModels.findAllById();
-//   if (!sales) {
-//     return {
-//       type: 'errorNotFound', message: 'Sale not found',
-//     };
-//   }
-//   const { id } = req.params;
-//   const bodyReq = req.body;
-//   const { type, message } = await salesService.updateSaleS(bodyReq, id);
-
-//   if (type) {
-//     return res.status(errorSales(type)).json({ message });
-//   }
-//   return res.status(200).json(message);
-// };
 
 module.exports = {
   saleValidate,

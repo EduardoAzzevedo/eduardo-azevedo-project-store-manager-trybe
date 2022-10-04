@@ -2,7 +2,7 @@ const salesModels = require('../models/salesModel');
 
 const { insert } = salesModels;
 const productsService = require('./productsServices');
-const { saleValidate, verification } = require('../middlewares/saleUpdateValidate');
+const { verification } = require('../middlewares/saleUpdateValidate');
 
 const createSale = async (itemsSold) => {
   const productIds = itemsSold.map(({ productId }) => productId);
@@ -47,26 +47,17 @@ const deleteSale = async (saleId) => {
 };
 
 const updateSaleS = async (itemUpdate, saleId) => {
-  const sales = await salesModels.findAll(saleId);
-  if (!sales) {
-    return { type: 'errorNotFound', message: 'Sale not found',
-    };
-  }
-
-  const validate = await saleValidate(itemUpdate);
-  if (validate.type) { return validate; }
-  const saleValide = await salesModels.findAllById(saleId);
-  if (saleValide.type) { return saleValide; }
+  const sales = await salesModels.findAllById(saleId);
+  if (!sales) { return { type: 'errorNotFound', message: 'Sale not found' }; }
 
   const product = await verification(itemUpdate);
   if (product) {
     return { type: 'errorNotFound', message: 'Product not found' };
   }
-  await Promise.all(itemUpdate
-    .map(async ({ productId, quantity }) => salesModels.updateSaleM(saleId, productId, quantity)));
-
+  await itemUpdate
+    .forEach(({ productId, quantity }) => salesModels.updateSaleM(saleId, productId, quantity));
   return {
-    type: null, message: { saleId, itemUpdate },
+    type: null, message: { saleId, itemsUpdated: itemUpdate },
   };
 };
 

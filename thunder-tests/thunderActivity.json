@@ -108,16 +108,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/sales/1",
-    "url": "http://localhost:3000/sales/1",
+    "url": "http://localhost:3000/sales/9",
     "method": "PUT",
     "sortNum": 0,
     "created": "2022-10-03T23:17:50.523Z",
-    "modified": "2022-10-03T23:18:52.761Z",
+    "modified": "2022-10-04T13:54:38.969Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"quantity\": 10\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 50\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 10\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 50\n  }\n]",
       "form": []
     },
     "tests": []
