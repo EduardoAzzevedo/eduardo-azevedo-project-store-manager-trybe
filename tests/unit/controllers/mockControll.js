@@ -13,11 +13,16 @@ const mockProducts = [
   },
 ];
 
-const expected = [
+const mockControllersId = [
   {
     "id": 3,
     "name": "Escudo do Capitão América"
   },
 ];
 
-module.exports = { mockProducts, expected };
+const mockSearch = {
+  id: 1,
+  name: "Martelo de Thor",
+};
+
+module.exports = { mockProducts, mockControllersId, mockSearch };

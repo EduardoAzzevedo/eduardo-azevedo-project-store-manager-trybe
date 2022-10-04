@@ -87,14 +87,14 @@ describe('Products Model', function () {
 
   describe('Deletando por id', function () {
     before(async function () {
-      sinon.stub(connection, 'execute').resolves([{ id: 1 }])
+      sinon.stub(connection, 'execute').resolves([{ deletedMock }])
     });
     after(async function () {
       connection.execute.restore();
     });
     it('Deleta com sucesso', async function () {
       const deleted = await productModel.deleteProduct([{ id: 1 }]);
-      expect(deleted).to.be.deep.equal(1);
+      expect(deleted).to.be.equal(deletedMock);
     });
   });
 });
