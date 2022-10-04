@@ -24,4 +24,9 @@ const deletedMock = [
   },
 ];
 
-module.exports = { executeMock, deletedMock };
+const mockSearch = {
+  id: 1,
+  name: "Martelo de Thor",
+};
+
+module.exports = { executeMock, deletedMock, mockSearch };

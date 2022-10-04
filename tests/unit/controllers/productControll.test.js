@@ -8,27 +8,19 @@ const {
   mockProducts,
   mockControllersId,
   mockSearch,
+  mockTextTypeResponse,
 } = require('./mockControll');
 
 describe('Testando a camada productsController', function () {
 
   describe('Testando o searchProductC', function () {
-    const req = {};
-    const res = {};
-
-    before(async () => {
+    it('Verifica se searchProductC retorna os produtos pesquisados por query', async function () {
+      const req = {};
+      const res = {};
       req.query = { q: 'Martelo de Thor' };
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productsService, 'searchProductS').resolves(mockSearch);
-    });
-
-    after(async () => {
-      productsService.searchProductS.restore();
-    });
-
-    it('Verifica se searchProductC retorna os produtos pesquisados por query', async function () {
-
       await productsController.searchProductC(req, res);
 
       expect(res.status.calledWith(200)).to.be.equal(true);
@@ -36,7 +28,6 @@ describe('Testando a camada productsController', function () {
   })
 
   describe('Testando o findAllProducts', function () {
-    
     it('Verifica se o findAllProducts retorna uma lista de produtos', async function () {
       const res = {};
       const req = {};
@@ -54,20 +45,13 @@ describe('Testando a camada productsController', function () {
   });
 
   describe('Testando o findById', function () {
-    const req = { params: { id: 1 }};
-    const res = {};
 
-    before(async () => {
+    it('Verifica se o findById retorna um produto', async function () {
+      const req = { params: { id: 1 } };
+      const res = {};
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productsService, 'findById').resolves(mockControllersId);
-    });
-
-    after(async () => {
-      productsService.findById.restore();
-    });
-    it('Verifica se o findById retorna um produto', async function () {
-     
       await productsController.findById(req, res);
 
       expect(res.status.calledWith(200)).to.be.equal(true);
@@ -85,18 +69,16 @@ describe('Testando a camada productsController', function () {
 
       sinon
         .stub(productsService, "findById")
-        .resolves({ type: 'errorNorFound', message: "Product not found" });
+        .resolves(mockTextTypeResponse);
 
       await productsController.findById(req, res);
 
-      expect(res.status.calledWith(404)).to.be.equal(true);
-      expect(
-        res.json.calledWith({ })
-      ).to.be.deep.equal();
+      expect(res.status.calledWith({ type: null })).to.be.equal(true);
+      expect(res.json.calledWith({ message: "Product not found" })).to.be.deep.equal(true);
     });
   });
 
-  describe('Testes do "insert"', function () {
+  describe('Testando o "insert"', function () {
     it('Verifica se o "insert" retorna o produto cadastrado com sucesso', async function () {
       const res = {};
       const req = { body: { name: "ProductX" } };
@@ -109,7 +91,7 @@ describe('Testando a camada productsController', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      sinon.stub(productsService, 'insertP').resolves({ type: null, message: expected });
+      sinon.stub(productsService, 'insertP').resolves(expected);
 
       await productsController.insert(req, res);
 
@@ -119,21 +101,25 @@ describe('Testando a camada productsController', function () {
 
     it('Verifica se o "insert" retorna um erro ao passar a chave "name" errado', async function () {
       const res = {};
-      const req = { body: { nam: "ProductX" } };
+      const req = { body: { name: "ProductX" } };
+
+      const error = {
+        id: 1,
+      }
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
       sinon
         .stub(productsService, "insertP")
-        .resolves({ type: "INVALID_FIELD", message: '"name" is required' });
+        .resolves(error);
 
       await productsController.insert(req, res);
 
       expect(res.status.calledWith(400)).to.be.equal(true);
       expect(
-        res.json.calledWith({ message: '"name" is required' })
-      ).to.be.equal(true);
+        res.json.calledWith(error)
+      ).to.be.deep.equal({ message: '"name" is required' });
     });
 
     it('Verifica se o "insert" retorna um erro ao passar um valor para "name" inválido', async function () {
@@ -144,7 +130,7 @@ describe('Testando a camada productsController', function () {
       res.json = sinon.stub().returns();
 
       sinon.stub(productsService, "insertP").resolves({
-        type: "INVALID_VALUE",
+        type: 'errorInvalideValue',
         message: '"name" length must be at least 5 characters long',
       });
 
@@ -189,7 +175,7 @@ describe('Testando a camada productsController', function () {
 
       sinon
         .stub(productsService, "productUpdate")
-        .resolves({ type: "NOT_FOUND", message: "Product not found" });
+        .resolves({ type: 'errorNotFount', message: "Product not found" });
 
       await productsController.updateProductC(req, res);
 
@@ -252,4 +238,6 @@ describe('Testando a camada productsController', function () {
       ).to.be.equal(true);
     });
   });
+
+  this.afterEach(sinon.restore)
 });

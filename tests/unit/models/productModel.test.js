@@ -1,8 +1,9 @@
 const { expect } = require('chai');
+const { response } = require('express');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const productModel = require('../../../src/models/productsModel');
-const { executeMock, deletedMock } = require('./mockModel');
+const { executeMock, deletedMock, mockSearch } = require('./mockModel');
 
 describe("Verifica se retorna os produtos", () => {
 
@@ -87,14 +88,29 @@ describe('Products Model', function () {
 
   describe('Deletando por id', function () {
     before(async function () {
-      sinon.stub(connection, 'execute').resolves([{ deletedMock }])
+      sinon.stub(connection, 'execute').resolves([deletedMock])
     });
     after(async function () {
       connection.execute.restore();
     });
     it('Deleta com sucesso', async function () {
-      const deleted = await productModel.deleteProduct([{ id: 1 }]);
-      expect(deleted).to.be.equal(deletedMock);
+      const deleted = await productModel.deleteProduct({ id: 3 });
+      expect(deleted).to.be.equal([{ deletedMock }]);
+    });
+  });
+
+  describe('Testando o "searchProduct"', function () {
+    before(async function () {
+      sinon.stub(connection, "execute").resolves([[mockSearch]]);
+    });
+    after(async function () {
+      connection.execute.restore();
+    });
+
+    it('Verifica se "searchProduct" retorna o produto pesquisado com sucesso', async function () {
+      const result = await productModel.searchProductM('M');
+
+      expect(result).to.be.deep.equal([mockSearch]);
     });
   });
 });

@@ -25,4 +25,12 @@ const mockSearch = {
   name: "Martelo de Thor",
 };
 
-module.exports = { mockProducts, mockControllersId, mockSearch };
+const mockTextTypeResponse = {
+  type: null,
+  message: {
+    id: 1,
+    name: "Martelo de Thor",
+  }
+};
+
+module.exports = { mockProducts, mockControllersId, mockSearch, mockTextTypeResponse };
