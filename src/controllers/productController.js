@@ -37,7 +37,7 @@ const deleteProduct = async (req, res) => {
   if (result == null) {
     return res.status(404).json({ message: 'Product not found' });
   }
-  return res.status(204).end();
+  return res.status(204).json({ message: '' });
 };
 
 const searchProductC = async (req, res) => {

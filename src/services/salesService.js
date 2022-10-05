@@ -38,7 +38,6 @@ const saleById = async (saleId) => {
 
 const deleteSale = async (saleId) => {
   const sale = await salesModels.findAllById(saleId);
-
   if (!sale.length) {
     return { type: 'errorNotFound', message: 'Sale not found' };
   }
